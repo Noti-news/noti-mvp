@@ -5,6 +5,19 @@ from PIL import Image
 
 st.set_page_config(page_title="Notì – AI News", page_icon="📰", layout="wide")
 
+# Custom CSS for white background and global styling
+st.markdown("""
+    <style>
+        body {
+            background-color: #F9F9F9;
+        }
+        .stApp {
+            background-color: #F9F9F9;
+            color: #0D1B2A;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 # Carica il logo
 logo = Image.open("logo.png")  # Assicurati che il file sia nella stessa cartella
 
