@@ -39,33 +39,25 @@ with col2:
 with col3:
     st.markdown('<div style="text-align:right; font-size:28px; color:#0D1B2A;">⚙️ 👤</div>', unsafe_allow_html=True)
 
-# Colonne per i due bottoni affiancati
+# Inizializza sessione
+if "selected_topics" not in st.session_state:
+    st.session_state.selected_topics = []
+
 col1, col2 = st.columns([1, 1])
 
 with col1:
-    if st.button("Topics I Follow 💚"):
-        st.success("You clicked: Topics I Follow")
+    st.markdown("### Topics I Follow 💚")
+    st.session_state.selected_topics = st.multiselect(
+        "Choose your favorite topics (max 3):",
+        ["Politics", "Economy", "Technology", "Science", "Sports", "Art & Culture", "Environment", "Health", "Geopolitics"],
+        default=st.session_state.selected_topics,
+        max_selections=3
+    )
 
 with col2:
-    if st.button("Not for me ❌"):
-        st.warning("You clicked: Not for me")
-
-  <style>
-        /* Bottone sinistro - verde */
-        button[kind="secondary"] {
-            background-color: #00C2A8 !important;
-            color: white !important;
-            border: none !important;
-        }
-
-        /* Bottone destro - rosso */
-        .stButton button:nth-of-type(2) {
-            background-color: #FF6B6B !important;
-            color: white !important;
-            border: none !important;
-        }
-    </style>
-
+    st.markdown("### Not for me ❌")
+    st.button("🚫 This feature is coming soon", disabled=True)
+ 
 # OpenAI client with API key from Streamlit secrets
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
