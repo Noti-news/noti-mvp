@@ -39,6 +39,17 @@ with col2:
 with col3:
     st.markdown('<div style="text-align:right; font-size:28px; color:#0D1B2A;">⚙️ 👤</div>', unsafe_allow_html=True)
 
+# Colonne per i due bottoni affiancati
+col1, col2 = st.columns([1, 1])
+
+with col1:
+    if st.button("Topics I Follow 💚"):
+        st.success("You clicked: Topics I Follow")
+
+with col2:
+    if st.button("Not for me ❌"):
+        st.warning("You clicked: Not for me")
+
 # OpenAI client with API key from Streamlit secrets
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
