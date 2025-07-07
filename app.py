@@ -42,21 +42,59 @@ with col3:
 # Inizializza sessione
 if "selected_topics" not in st.session_state:
     st.session_state.selected_topics = []
+if "topics_show" not in st.session_state:
+    st.session_state.topics_show = False
 
-col1, col2 = st.columns([1, 1])
+# Stili e bottoni
+st.markdown("""
+<style>
+.button-box {
+    border: 2px solid #0D1B2A;
+    background-color: #FFFFFF;
+    color: #0D1B2A;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: border-color 0.3s ease;
+    cursor: pointer;
+    width: 100%;
+}
+.button-box:hover.topics {
+    border-color: #00C2A8;
+}
+.button-box:hover.not-for-me {
+    border-color: #FF6B6B;
+}
+.container-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+</style>
 
-with col1:
-    st.markdown("### Topics I Follow 💚")
-    st.session_state.selected_topics = st.multiselect(
-        "Choose your favorite topics (max 3):",
-        ["Politics", "Economy", "Technology", "Science", "Sports", "Art & Culture", "Environment", "Health", "Geopolitics"],
-        default=st.session_state.selected_topics,
-        max_selections=3
-    )
+<div class="container-row">
+    <form action="" method="post">
+        <button class="button-box topics" name="button" value="topics" type="submit">Topics I Follow 💚</button>
+    </form>
+    <div class="button-box not-for-me">
+        Not for me ❌
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
-with col2:
-    st.markdown("### Not for me ❌")
-    st.button("🚫 This feature is coming soon", disabled=True)
+# Simula apertura selezione se cliccato
+if st.query_params.get("button") == "topics":
+    st.session_state.topics_show = True
+
+if st.session_state.topics_show:
+    with st.expander("🎯 Select Topics", expanded=True):
+        st.session_state.selected_topics = st.multiselect(
+            "Choose your favorite topics (max 3):",
+            ["Politics", "Economy", "Technology", "Science", "Sports", "Art & Culture", "Environment", "Health", "Geopolitics"],
+            default=st.session_state.selected_topics,
+            max_selections=3
+        )
  
 # OpenAI client with API key from Streamlit secrets
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
