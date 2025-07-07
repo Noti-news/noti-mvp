@@ -45,7 +45,7 @@ if "selected_topics" not in st.session_state:
 if "topics_show" not in st.session_state:
     st.session_state.topics_show = False
 
-# Stili e bottoni
+# HTML + CSS + logica
 st.markdown("""
 <style>
 .button-box {
@@ -56,14 +56,17 @@ st.markdown("""
     text-align: center;
     border-radius: 10px;
     font-weight: bold;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
-    width: 100%;
 }
 .button-box:hover.topics {
+    background-color: #00C2A8;
+    color: white;
     border-color: #00C2A8;
 }
 .button-box:hover.not-for-me {
+    background-color: #FF6B6B;
+    color: white;
     border-color: #FF6B6B;
 }
 .container-row {
@@ -71,30 +74,35 @@ st.markdown("""
     gap: 20px;
     margin-top: 30px;
 }
+.left-btn {
+    flex: 2;
+}
+.right-btn {
+    flex: 1;
+}
 </style>
 
 <div class="container-row">
-    <form action="" method="post">
-        <button class="button-box topics" name="button" value="topics" type="submit">Topics I Follow 💚</button>
+    <form method="post">
+        <button class="button-box topics left-btn" name="show_topics" type="submit">Topics I Follow 💚</button>
     </form>
-    <div class="button-box not-for-me">
+    <div class="button-box not-for-me right-btn">
         Not for me ❌
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# Simula apertura selezione se cliccato
-if st.query_params.get("button") == "topics":
+# Bottone dinamico che apre il menu
+if st.session_state.get("topics_show") or "show_topics" in st.experimental_get_query_params():
     st.session_state.topics_show = True
 
 if st.session_state.topics_show:
-    with st.expander("🎯 Select Topics", expanded=True):
-        st.session_state.selected_topics = st.multiselect(
-            "Choose your favorite topics (max 3):",
-            ["Politics", "Economy", "Technology", "Science", "Sports", "Art & Culture", "Environment", "Health", "Geopolitics"],
-            default=st.session_state.selected_topics,
-            max_selections=3
-        )
+    st.session_state.selected_topics = st.multiselect(
+        "🎯 Choose your favorite topics (max 3):",
+        ["Politics", "Economy", "Technology", "Science", "Sports", "Art & Culture", "Environment", "Health", "Geopolitics"],
+        default=st.session_state.selected_topics,
+        max_selections=3
+    )
  
 # OpenAI client with API key from Streamlit secrets
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
