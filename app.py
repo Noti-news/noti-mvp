@@ -50,6 +50,22 @@ with col2:
     if st.button("Not for me ❌"):
         st.warning("You clicked: Not for me")
 
+  <style>
+        /* Bottone sinistro - verde */
+        button[kind="secondary"] {
+            background-color: #00C2A8 !important;
+            color: white !important;
+            border: none !important;
+        }
+
+        /* Bottone destro - rosso */
+        .stButton button:nth-of-type(2) {
+            background-color: #FF6B6B !important;
+            color: white !important;
+            border: none !important;
+        }
+    </style>
+
 # OpenAI client with API key from Streamlit secrets
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
