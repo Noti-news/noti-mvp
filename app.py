@@ -1,9 +1,30 @@
 import streamlit as st
 from openai import OpenAI
+from datetime import datetime
+from PIL import Image
 
-st.set_page_config(page_title="Notì – AI News", page_icon="📰")
+st.set_page_config(page_title="Notì – AI News", page_icon="📰", layout="wide")
 
-st.title("📰 Notì – Your Daily News, Reimagined")
+# Carica il logo
+logo = Image.open("logo.png")  # Assicurati che il file sia nella stessa cartella
+
+# Layout a 3 colonne
+col1, col2, col3 = st.columns([3, 2, 1])
+
+with col1:
+    st.image(logo, width=180)  # Puoi cambiare la larghezza se vuoi più piccolo/grande
+    st.markdown("""
+        <div style="font-size:18px; color:#333333; margin-top:-10px;">
+        Rethink your daily news: <b>faster</b>, <b>smarter</b>, <b>yours</b>
+        </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    today = datetime.today().strftime("%-d %B %Y")  # Es. "7 July 2025"
+    st.markdown(f'<div style="font-size:32px; color:#333333;">{today}</div>', unsafe_allow_html=True)
+
+with col3:
+    st.markdown('<div style="text-align:right; font-size:28px; color:#0D1B2A;">⚙️ 👤</div>', unsafe_allow_html=True)
 
 # OpenAI client with API key from Streamlit secrets
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
